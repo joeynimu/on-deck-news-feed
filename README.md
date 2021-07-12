@@ -8,6 +8,13 @@
 4. Run the dev server: `yarn dev`
 5. Open http://localhost:3000
 
+## Below are available scripts that you can ran
+
+- `yarn run dev`: Builds the application for production.
+- `yarn run prisma-seed`: This `seeds` the database using the seed script inside the `prisma` folder.
+- `yarn run prisma-studio`: This opens up a `GUI` that you can use to interact with the database.
+- `yarn run generate`: This generates custom data fetching Apollo hooks based off the queries inside the `graphql-queries` folder.
+
 ## Setting: what this toy project is about
 
 This project portrays a simplified slice of On Deck community platform.
