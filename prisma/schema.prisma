@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./data.db"
+}
+
+model Announcement {
+  id         Int       @id @default(autoincrement())
+  fellowship String
+  title      String
+  body       String
+  created_ts DateTime? @default(now())
+  updated_ts DateTime? @default(now())
+}
+
+model Project {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+  icon_url    String
+  created_ts  DateTime? @default(now())
+  updated_ts  DateTime? @default(now())
+  users       User[]
+}
+
+model User {
+  id         Int       @id @default(autoincrement())
+  name       String
+  bio        String
+  avatar_url String
+  fellowship String
+  created_ts DateTime? @default(now())
+  updated_ts DateTime? @default(now())
+  projects   Project[]
+}

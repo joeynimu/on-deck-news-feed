@@ -1,0 +1,72 @@
+query getProject($id: Int!) {
+  project(id: $id) {
+    id
+    name
+    description
+    icon_url
+    users {
+      id
+      name
+      avatar_url
+    }
+  }
+}
+
+query getAllUsers(
+  $fellowships: [String!]
+  $cursor: Int
+  $take: Int
+  $includeProjects: Boolean!
+) {
+  allUsers(take: $take, cursor: $cursor, fellowship: $fellowships) {
+    users {
+      id
+      name
+      bio
+      fellowship
+      avatar_url
+      updated_ts
+      created_ts
+      projects @include(if: $includeProjects) {
+        id
+        name
+        description
+        icon_url
+        updated_ts
+        created_ts
+      }
+    }
+    count
+  }
+}
+
+query getAnounceMents($fellowship: [String!]) {
+  announcements(fellowship: $fellowship) {
+    id
+    title
+    fellowship
+    created_ts
+    updated_ts
+    body
+  }
+}
+
+query getUser($id: Int!) {
+  user(id: $id) {
+    id
+    name
+    bio
+    fellowship
+    avatar_url
+    updated_ts
+    created_ts
+    projects {
+      id
+      name
+      description
+      icon_url
+      updated_ts
+      created_ts
+    }
+  }
+}

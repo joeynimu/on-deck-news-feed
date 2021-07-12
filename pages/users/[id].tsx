@@ -1,67 +1,28 @@
-import {useRouter} from 'next/router'
-import {useQuery, gql} from '@apollo/client'
-import Layout from 'components/Layout'
-import UserCard from 'components/UserCard'
+import { useRouter } from "next/router";
+import Layout from "components/Layout";
+import UserCard from "components/UserCard";
+import { useGetUserQuery } from "graphql-queries/generated/graphql";
+import { FC } from "react";
+import { BackButton } from "components/AnnouncementList";
 
-const USER_QUERY = gql`
-  query user($id: Int!) {
-    user(id: $id) {
-      id
-      name
-      bio
-      fellowship
-      avatar_url
-      projects {
-        id
-        name
-        icon_url
-      }
-    }
-  }
-`
-
-type QueryData = {
-  user: User;
-}
-
-type QueryVars = {
-  id: number;
-}
-
-type User = {
-  id: number;
-  name: string;
-  bio: string;
-  fellowship: "fellows" | "angels" | "writers";
-  avatar_url: string;
-  projects: Project[];
-}
-
-type Project = {
-  id: number;
-  name: string;
-  icon_url: string;
-}
-
-export default function UserPage() {
-  const {query} = useRouter()
-
-  const {data, error, loading} = useQuery<QueryData, QueryVars>(
-    USER_QUERY,
-    {
-      skip: !query.id,
-      variables: {id: Number(query.id)},
-    }
-  )
-  const user = data?.user;
-
-  if (!user || loading || error) {
-    return null
-  }
+const UserPage: FC = () => {
+  const {
+    query: { id = "0" },
+  } = useRouter();
+  const { data, loading, error } = useGetUserQuery({
+    variables: {
+      id: Number(id),
+    },
+  });
 
   return (
     <Layout>
-      <UserCard user={user} />
+      <BackButton onClick={() => window.history.back()}>Go Back</BackButton>
+      {loading && <p>Loading...</p>}
+      {error && <p>Something went wrong :(</p>}
+      {data?.user && <UserCard user={data?.user} />}
     </Layout>
-  )
-}
+  );
+};
+
+export default UserPage;

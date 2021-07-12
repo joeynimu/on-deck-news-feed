@@ -1,13 +1,19 @@
-import styled from 'styled-components'
+import Link from "next/link";
+import styled from "styled-components";
 
-export default function Layout({children}: React.PropsWithChildren<{}>) {
+export default function Layout({ children }: React.PropsWithChildren<{}>) {
   return (
     <Container>
-      <Main>
-        {children}
-      </Main>
+      <header>
+        <Link href="/">
+          <a>
+            <h1 style={{ textAlign: "center" }}>On Deck</h1>
+          </a>
+        </Link>
+      </header>
+      <Main>{children}</Main>
     </Container>
-  )
+  );
 }
 
 const Container = styled.div`
@@ -17,7 +23,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const Main = styled.div`
   padding: 1rem 0;
@@ -25,4 +31,4 @@ const Main = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 600px;
-`
+`;
