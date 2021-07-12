@@ -7,7 +7,6 @@ import {
 } from "graphql-queries/generated/graphql";
 import { useRouter } from "next/router";
 import { StyledUL, UserList } from "components/UserCard";
-import { useRef } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 export default function FellowShipPage() {
@@ -24,10 +23,8 @@ export default function FellowShipPage() {
 
   const {
     data: usersData,
-    loading: isLoadingUsers,
     error: loadingUsersError,
     fetchMore,
-    networkStatus,
   } = useGetAllUsersQuery({
     variables: {
       includeProjects: !isWritersPage,
@@ -39,9 +36,6 @@ export default function FellowShipPage() {
   const currentCount = usersData?.allUsers?.users?.length || 0;
 
   const hasNextPage = currentCount < totalDataCount;
-  const isRefetching = networkStatus === 3;
-
-  const containerRef = useRef(null);
 
   const onFetchMore = () =>
     fetchMore({
@@ -105,7 +99,6 @@ export default function FellowShipPage() {
               ))}
             </StyledUL>
           </InfiniteScroll>
-          {/* {hasNextPage && <button onClick={onFetchMore} disabled={isLoadingUsers || isRefetching}>{isRefetching ? `fetching` : `Load more`}</button>} */}
         </>
       )}
     </Layout>
